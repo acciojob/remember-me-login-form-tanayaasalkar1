@@ -5,10 +5,19 @@ let password = document.getElementById('password');
 let existing = document.getElementById('existing');
 let remember = document.getElementById('checkbox');
 
-// Initially hide the button
-existing.style.display = "none";
+// Check localStorage when page loads
+let savedUsername = localStorage.getItem("username");
+let savedPassword = localStorage.getItem("password");
 
-btn.addEventListener('click', () => {
+if (savedUsername && savedPassword) {
+    existing.style.display = "block";
+} else {
+    existing.style.display = "none";
+}
+
+// Submit button
+btn.addEventListener('click', (event) => {
+    event.preventDefault();
 
     alert(`Logged in as ${username.value}`);
 
@@ -16,9 +25,7 @@ btn.addEventListener('click', () => {
         localStorage.setItem("username", username.value);
         localStorage.setItem("password", password.value);
 
-        // Show button only after saving credentials
         existing.style.display = "block";
-
     } else {
         localStorage.removeItem("username");
         localStorage.removeItem("password");
@@ -28,7 +35,9 @@ btn.addEventListener('click', () => {
 });
 
 // Existing user button
-existing.addEventListener('click', () => {
+existing.addEventListener('click', (event) => {
+    event.preventDefault();
+
     let savedUsername = localStorage.getItem("username");
 
     if (savedUsername) {
